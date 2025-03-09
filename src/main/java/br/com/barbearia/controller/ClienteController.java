@@ -29,7 +29,7 @@ public class ClienteController {
     @PostMapping
     public ResponseEntity<Cliente>cadastrarCliente(@RequestBody Cliente cliente){
         try{
-            Cliente novoCliente = clienteService.cadastrarCliente(cliente);
+            Cliente novoCliente = clienteService.save(cliente);
             return  new ResponseEntity<>(novoCliente, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);

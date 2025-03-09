@@ -1,6 +1,7 @@
 package br.com.barbearia.services;
 
 import br.com.barbearia.models.Barbeiro;
+import br.com.barbearia.models.Cliente;
 import br.com.barbearia.repository.BarbeiroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,7 +27,8 @@ public class BarbeiroService {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Barbeiro não localizado!");
     }
 
-    public List<Barbeiro>obterTodosBarbeiros(){
+
+    public List<Barbeiro>pesquisarBarbeiros(){
         return barbeiroRepository.findAll();
     }
 

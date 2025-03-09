@@ -1,6 +1,7 @@
 package br.com.barbearia.controller;
 
 import br.com.barbearia.models.Barbeiro;
+import br.com.barbearia.models.Cliente;
 import br.com.barbearia.services.BarbeiroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,14 +37,14 @@ public class BarbeiroController {
         return new ResponseEntity<>(barbeiros, HttpStatus.OK);
     }
 
-    @GetMapping("/barbeiros")
-    public ResponseEntity<List<Barbeiro>> obterTodosBarbeiros() {
-        List<Barbeiro> barbeiros = barbeiroService.obterTodosBarbeiros();
 
+    @GetMapping
+    public ResponseEntity<List<Barbeiro>> pesquisarBarbeiros() {
+        List<Barbeiro> barbeiros = barbeiroService.pesquisarBarbeiros();
         if (barbeiros.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok(barbeiros);
+        return new ResponseEntity<>(barbeiros, HttpStatus.OK);
 
     }
 

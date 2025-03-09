@@ -1,5 +1,6 @@
 package br.com.barbearia.services;
 
+import br.com.barbearia.models.Barbeiro;
 import br.com.barbearia.models.Cliente;
 import br.com.barbearia.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +26,6 @@ public class ClienteService {
 
     }
 
-    public Cliente cadastrarCliente (Cliente cliente) {
-        if (clienteRepository.existsById(cliente.getId())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cliente já cadastrado");
-
-        }
-       return clienteRepository.save(cliente);
-    }
 
     public List<Cliente> pesquisarClientes(){
         return clienteRepository.findAll();
