@@ -8,39 +8,43 @@ public class Agenda {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long agendaId;
 
     @ManyToOne
+    @JoinColumn(name = "barbeiroId")
+    private Barbeiro barbeiro;
+
+    @ManyToOne
+    @JoinColumn(name = "clienteId")
     private Cliente cliente;
 
-    @ManyToOne
-    private Barbeiro barbeiro;
 
     private String dataHora;
 
     public Agenda(){
 
     }
-    public Agenda(Long id, Cliente cliente, Barbeiro barbeiro, String dataHora) {
-        this.id = id;
+    public Agenda(Long agendaId, Cliente cliente, Barbeiro barbeiro, String dataHora) {
+        this.agendaId = agendaId;
         this.cliente = cliente;
         this.barbeiro = barbeiro;
         this.dataHora = dataHora;
     }
 
-    public Long getId() {
-        return id;
+    public Long getAgendaId() {
+        return agendaId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setAgendaId(Long id) {
+        this.agendaId = id;
     }
 
     public Cliente getCliente() {
         return cliente;
     }
 
-    public void setCliente(Cliente cliente) {
+    public void
+        setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
 

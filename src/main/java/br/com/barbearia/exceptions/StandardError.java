@@ -1,4 +1,4 @@
-package br.com.barbearia.exception;
+package br.com.barbearia.exceptions;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

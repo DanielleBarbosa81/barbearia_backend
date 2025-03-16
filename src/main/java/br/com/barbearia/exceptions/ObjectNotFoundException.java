@@ -1,4 +1,4 @@
-package br.com.barbearia.exception;
+package br.com.barbearia.exceptions;
 
 public class ObjectNotFoundException extends RuntimeException {
     public ObjectNotFoundException(String message) {

@@ -1,6 +1,7 @@
 package br.com.barbearia.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "tb_cliente")
@@ -8,29 +9,22 @@ public class Cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long clienteId;
 
+    @NotNull
+    @Column(name = "nome", nullable = false) // Garante que o nome será persistido no banco
     private String nome;
+
     private String telefone;
     private String email;
 
-    public Cliente(){
-
+    // Getters e Setters
+    public Long getClienteId() {
+        return clienteId;
     }
 
-    public Cliente(Long id, String nome, String telefone, String email) {
-        this.id = id;
-        this.nome = nome;
-        this.telefone = telefone;
-        this.email = email;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public void setClienteId(Long id) {
+        this.clienteId = id;
     }
 
     public String getNome() {

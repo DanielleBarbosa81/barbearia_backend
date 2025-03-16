@@ -1,4 +1,4 @@
-package br.com.barbearia.exception;
+package br.com.barbearia.exceptions;
 
 public class FieldMessage {
     private String fieldName;

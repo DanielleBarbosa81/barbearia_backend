@@ -8,27 +8,30 @@ public class Barbeiro {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long barbeiroId;
 
+    @Column(nullable = false)
     private String nome;
+
+    @Column(nullable = false)
     private String especialidade;
 
     public Barbeiro(){
 
     }
 
-    public Barbeiro(Long id, String nome, String especialidade) {
-        this.id = id;
+    public Barbeiro(Long barbeiroId, String nome, String especialidade) {
+        this.barbeiroId = barbeiroId;
         this.nome = nome;
         this.especialidade = especialidade;
     }
 
-    public Long getId() {
-        return id;
+    public Long getBarbeiroId() {
+        return barbeiroId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setBarbeiroId(Long id) {
+        this.barbeiroId = id;
     }
 
     public String getNome() {
