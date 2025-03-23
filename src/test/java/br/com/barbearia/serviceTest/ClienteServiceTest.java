@@ -1,4 +1,4 @@
-package br.com.barbearia;
+package br.com.barbearia.serviceTest;
 
 import br.com.barbearia.models.Cliente;
 import br.com.barbearia.repository.ClienteRepository;

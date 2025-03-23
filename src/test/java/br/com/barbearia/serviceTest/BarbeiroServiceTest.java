@@ -1,4 +1,4 @@
-package br.com.barbearia;
+package br.com.barbearia.serviceTest;
 
 import br.com.barbearia.exceptions.ObjectNotFoundException;
 import br.com.barbearia.models.Barbeiro;
