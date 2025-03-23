@@ -127,7 +127,7 @@ DELETE /agendamentos/{id} → Cancelar um agendamento
 
 * Os testes são feitos utilizando JUnit e Mockito. Para executá-los, utilize:
 
-** mvn test
+ mvn test
 
 📜 Licença
 
