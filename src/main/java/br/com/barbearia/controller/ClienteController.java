@@ -27,7 +27,7 @@ public class ClienteController {
   public ModelMapper modelMapper;
 
 
-    @GetMapping("/{id}")
+    @GetMapping("/{clienteId}")
     public ResponseEntity<ClienteDto> findById (@PathVariable Long clienteId){
         Cliente cliente = clienteService.findById(clienteId);
         return ResponseEntity.ok().body(modelMapper.map(cliente, ClienteDto.class));
