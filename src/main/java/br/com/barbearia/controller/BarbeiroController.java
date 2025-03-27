@@ -26,7 +26,7 @@ public class BarbeiroController {
     @Autowired
     public ModelMapper modelMapper;
 
-    @GetMapping("/{id}")
+    @GetMapping("/{barbeiroid}")
     public ResponseEntity<BarbeiroDto> findById (@PathVariable Long id){
         Barbeiro barbeiro = barbeiroService.findById(id);
         return ResponseEntity.ok().body(modelMapper.map(barbeiro, BarbeiroDto.class));

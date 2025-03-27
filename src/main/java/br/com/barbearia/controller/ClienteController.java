@@ -32,7 +32,7 @@ public class ClienteController {
         Cliente cliente = clienteService.findById(clienteId);
         return ResponseEntity.ok().body(modelMapper.map(cliente, ClienteDto.class));
     }
-    @GetMapping
+    @GetMapping("/listarClientes")
     public ResponseEntity<List<ClienteDto>> findAll (){
         List<Cliente> clientes = clienteService.findAll();
 
@@ -41,8 +41,11 @@ public class ClienteController {
         return ResponseEntity.ok().body(clienteDtos);
 
     }
-    @PostMapping
-    public ResponseEntity<ClienteDto> save(@Valid @RequestBody ClienteDto clienteDto) {
+
+
+
+    @PostMapping("/cadastrarCliente")
+        public ResponseEntity<ClienteDto> save (@Valid @RequestBody ClienteDto clienteDto){
         // Converte o DTO para a entidade
         Cliente cliente = modelMapper.map(clienteDto, Cliente.class);
 
@@ -57,7 +60,7 @@ public class ClienteController {
     }
 
 
-    @PutMapping
+     @PutMapping("/{clienteId}")
     public ResponseEntity<ClienteDto> update (@PathVariable Long clienteId, @Valid @RequestBody ClienteDto clienteDto){
         clienteDto.setClienteId(clienteId);
 
@@ -70,11 +73,12 @@ public class ClienteController {
 
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete (@PathVariable Long clienteId){
+    @DeleteMapping("/{clienteId}")
+    public ResponseEntity<Void> delete (@PathVariable Long clienteId) {
         clienteService.delete(clienteId);
         return ResponseEntity.noContent().build();
+
+
     }
-
-
 }
+
