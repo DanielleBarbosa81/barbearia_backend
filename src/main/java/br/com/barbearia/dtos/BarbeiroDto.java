@@ -2,7 +2,7 @@ package br.com.barbearia.dtos;
 
 public class BarbeiroDto {
 
-    private  Long id;
+    private  Long barbeiroId;
     private String nome;
     private String especialidade;
 
@@ -11,13 +11,12 @@ public class BarbeiroDto {
     }
 
 
-
-    public Long getId() {
-        return id;
+    public Long getBarbeiroId() {
+        return barbeiroId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setBarbeiroId(Long barbeiroId) {
+        this.barbeiroId = barbeiroId;
     }
 
     public String getNome() {

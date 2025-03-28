@@ -26,13 +26,13 @@ public class BarbeiroController {
     @Autowired
     public ModelMapper modelMapper;
 
-    @GetMapping("/{barbeiroid}")
-    public ResponseEntity<BarbeiroDto> findById (@PathVariable Long id){
-        Barbeiro barbeiro = barbeiroService.findById(id);
+    @GetMapping("/{barbeiroId}")
+    public ResponseEntity<BarbeiroDto> findById (@PathVariable Long barbeiroId){
+        Barbeiro barbeiro = barbeiroService.findById(barbeiroId);
         return ResponseEntity.ok().body(modelMapper.map(barbeiro, BarbeiroDto.class));
     }
 
-    @GetMapping
+    @GetMapping("/listarBarbeiros")
     public ResponseEntity<List<BarbeiroDto>> findAll(@RequestParam (value = "agenda", defaultValue = "0") Long id){
         List<Barbeiro> barbeiros = barbeiroService.findAll();
         List<BarbeiroDto> barbeiroDtos = barbeiros.stream()
@@ -41,7 +41,7 @@ public class BarbeiroController {
         return ResponseEntity.ok().body(barbeiroDtos);
     }
 
-    @PostMapping
+    @PostMapping("/cadastrarBarbeiro")
     public ResponseEntity<BarbeiroDto> save (@Valid @RequestBody BarbeiroDto barbeiroDto){
         Barbeiro barbeiro = modelMapper.map(barbeiroDto, Barbeiro.class);
         Barbeiro barb = barbeiroService.save(barbeiro);
@@ -49,16 +49,16 @@ public class BarbeiroController {
 
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<BarbeiroDto> update(@PathVariable Long id, @Valid @RequestBody BarbeiroDto barbeiroDto) {
+    @PutMapping("/{barbeiroId}")
+    public ResponseEntity<BarbeiroDto> update(@PathVariable Long barbeiroId, @Valid @RequestBody BarbeiroDto barbeiroDto) {
 
-        barbeiroDto.setId(id); // Mapeia o ID para o DTO
+        barbeiroDto.setBarbeiroId(barbeiroId); // Mapeia o ID para o DTO
 
         // Mapeando os dados recebidos (DTO para Entidade)
         Barbeiro novosDados = modelMapper.map(barbeiroDto, Barbeiro.class);
 
         // Atualizando o barbeiro através do serviço
-        Barbeiro barbeiroAtualizado = barbeiroService.update(id, novosDados);
+        Barbeiro barbeiroAtualizado = barbeiroService.update(barbeiroId, novosDados);
 
         // Convertendo a entidade atualizada para DTO e retornando na resposta
         BarbeiroDto resposta = modelMapper.map(barbeiroAtualizado, BarbeiroDto.class);
@@ -67,9 +67,9 @@ public class BarbeiroController {
     }
 
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete (@PathVariable Long id){
-        barbeiroService.delete(id);
+    @DeleteMapping("/{barbeiroId}")
+    public ResponseEntity<Void> delete (@PathVariable Long barbeiroId){
+        barbeiroService.delete(barbeiroId);
         return ResponseEntity.noContent().build();
     }
 
