@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,9 +53,9 @@ public class BarbeiroService {
        }
     }
 
-    public void delete (Long barbeiroId) {
+    public void delete (Long barbeiroId, LocalDateTime dataHora) {
         Barbeiro barbeiro = findById(barbeiroId);
-        boolean temAgendamentos  = agendaRepository.existsByBarbeiroBarbeiroId(barbeiroId);
+        boolean temAgendamentos  = agendaRepository.existsByBarbeiro_BarbeiroIdAndDataHora(barbeiroId, dataHora);
 
               if(temAgendamentos){
                    throw new ObjectNotFoundException("Não é possivel excluir barbeiro com cliente agendado!");

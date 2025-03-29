@@ -61,7 +61,7 @@ public class ClienteService {
     public void delete (Long clienteId){
 
         //verificar antes se existe um agendamento para o cliente
-        boolean possuiAgendamento = agendaRepository.existsByClienteClienteId(clienteId);
+        boolean possuiAgendamento = agendaRepository.existsByCliente_ClienteId(clienteId);
 
         if(possuiAgendamento){
             throw new ObjectNotFoundException("Cliente possui agendamento e não pode ser excluído");

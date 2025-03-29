@@ -1,46 +1,48 @@
 package br.com.barbearia.dtos;
 
+import jakarta.validation.constraints.NotNull;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDateTime;
+
 public class AgendaDto {
 
-    private Long agendaId;
-    private String clienteNome;
-    private String barbeiroNome;
-    private String dataHora;
+
+        @NotNull
+        private Long clienteId;
+
+        @NotNull
+        private Long barbeiroId;
+
+        @NotNull
+        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+        private LocalDateTime dataHora;
 
     public AgendaDto(){
 
     }
 
-
-    public Long getAgendaId() {
-        return agendaId;
+    public Long getClienteId() {
+        return clienteId;
     }
 
-    public void setAgendaId(Long id) {
-        this.agendaId = id;
+    public void setClienteId(Long clienteId) {
+        this.clienteId = clienteId;
     }
 
-    public String getClienteNome() {
-        return clienteNome;
+    public Long getBarbeiroId() {
+        return barbeiroId;
     }
 
-    public void setClienteNome(String clienteNome) {
-        this.clienteNome = clienteNome;
+    public void setBarbeiroId(Long barbeiroId) {
+        this.barbeiroId = barbeiroId;
     }
 
-    public String getBarbeiroNome() {
-        return barbeiroNome;
-    }
-
-    public void setBarbeiroNome(String barbeiroNome) {
-        this.barbeiroNome = barbeiroNome;
-    }
-
-    public String getDataHora() {
+    public LocalDateTime getDataHora() {
         return dataHora;
     }
 
-    public void setDataHora(String dataHora) {
+    public void setDataHora(LocalDateTime dataHora) {
         this.dataHora = dataHora;
     }
 }

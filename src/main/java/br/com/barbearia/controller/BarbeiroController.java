@@ -5,12 +5,12 @@ import br.com.barbearia.models.Barbeiro;
 import br.com.barbearia.services.BarbeiroService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.modelmapper.ModelMapper;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,7 +33,7 @@ public class BarbeiroController {
     }
 
     @GetMapping("/listarBarbeiros")
-    public ResponseEntity<List<BarbeiroDto>> findAll(@RequestParam (value = "agenda", defaultValue = "0") Long id){
+    public ResponseEntity<List<BarbeiroDto>> findAll(@RequestParam (value = "agenda", defaultValue = "0") Long barbeiroId){
         List<Barbeiro> barbeiros = barbeiroService.findAll();
         List<BarbeiroDto> barbeiroDtos = barbeiros.stream()
                 .map(barbeiro -> modelMapper.map(barbeiro, BarbeiroDto.class))
@@ -68,8 +68,8 @@ public class BarbeiroController {
 
 
     @DeleteMapping("/{barbeiroId}")
-    public ResponseEntity<Void> delete (@PathVariable Long barbeiroId){
-        barbeiroService.delete(barbeiroId);
+    public ResponseEntity<Void> delete (@PathVariable Long barbeiroId, @RequestBody LocalDateTime dataHora){
+        barbeiroService.delete(barbeiroId, dataHora);
         return ResponseEntity.noContent().build();
     }
 

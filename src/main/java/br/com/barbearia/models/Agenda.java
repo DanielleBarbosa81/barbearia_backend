@@ -2,6 +2,8 @@ package br.com.barbearia.models;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "tb_agenda")
 public class Agenda {
@@ -11,20 +13,20 @@ public class Agenda {
     private Long agendaId;
 
     @ManyToOne
-    @JoinColumn(name = "barbeiroId")
+    @JoinColumn(name = "barbeiroId" , nullable = false)
     private Barbeiro barbeiro;
 
     @ManyToOne
-    @JoinColumn(name = "clienteId")
+    @JoinColumn(name = "clienteId" , nullable = false)
     private Cliente cliente;
 
-
-    private String dataHora;
+    @Column(name = "dataHora", nullable = false)
+    private LocalDateTime dataHora;
 
     public Agenda(){
 
     }
-    public Agenda(Long agendaId, Cliente cliente, Barbeiro barbeiro, String dataHora) {
+    public Agenda(Long agendaId, Cliente cliente, Barbeiro barbeiro, LocalDateTime dataHora) {
         this.agendaId = agendaId;
         this.cliente = cliente;
         this.barbeiro = barbeiro;
@@ -56,11 +58,11 @@ public class Agenda {
         this.barbeiro = barbeiro;
     }
 
-    public String getDataHora() {
+    public LocalDateTime getDataHora() {
         return dataHora;
     }
 
-    public void setDataHora(String dataHora) {
+    public void setDataHora(LocalDateTime dataHora) {
         this.dataHora = dataHora;
     }
 }

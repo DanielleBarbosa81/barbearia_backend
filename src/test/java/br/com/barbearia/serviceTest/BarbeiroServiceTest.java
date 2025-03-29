@@ -11,10 +11,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class BarbeiroServiceTest {
@@ -31,6 +31,7 @@ public class BarbeiroServiceTest {
 
     private Long barbeiroId;
     private Barbeiro barbeiro;
+    private LocalDateTime dataHora;
 
     @BeforeEach
     public void setUp(){
@@ -50,13 +51,13 @@ public class BarbeiroServiceTest {
         when(barbeiroRepository.findById(barbeiroId)).thenReturn(Optional.of(barbeiro));
 
         // Simula que o barbeiro não possui agendamentos
-        when(agendaRepository.existsByBarbeiroBarbeiroId(barbeiroId)).thenReturn(false);
+        when(agendaRepository.existsByBarbeiro_BarbeiroIdAndDataHora(barbeiroId, dataHora)).thenReturn(false);
 
         // Executa o método de exclusão
-        barbeiroService.delete(barbeiroId);
+        barbeiroService.delete(barbeiroId, dataHora);
 
         // Verifica se os métodos foram chamados corretamente
-        verify(agendaRepository, times(1)).existsByBarbeiroBarbeiroId(barbeiroId);
+        verify(agendaRepository, times(1)).existsByBarbeiro_BarbeiroIdAndDataHora(barbeiroId, dataHora);
         verify(barbeiroRepository, times(1)).findById(barbeiroId);
         verify(barbeiroRepository, times(1)).deleteById(barbeiroId);
     }
@@ -68,11 +69,11 @@ public class BarbeiroServiceTest {
         when(barbeiroRepository.findById(barbeiroId)).thenReturn(java.util.Optional.of(barbeiro));
 
         //simula que existem agendamentos associados ao barbeiro
-        when(agendaRepository.existsByBarbeiroBarbeiroId(barbeiroId)).thenReturn(true);
+        when(agendaRepository.existsByBarbeiro_BarbeiroIdAndDataHora(barbeiroId, dataHora)).thenReturn(true);
 
         //verifica se a exceccao é lançada
         ObjectNotFoundException exception = assertThrows(ObjectNotFoundException.class, () -> {
-            barbeiroService.delete(barbeiroId);
+            barbeiroService.delete(barbeiroId, dataHora);
         });
         //verifica a mensagem de erro
         assertEquals("Não é possivel excluir barbeiro com cliente agendado!", exception.getMessage());
@@ -80,5 +81,15 @@ public class BarbeiroServiceTest {
         //verifica se o metodo deleteById não foi chamado
         verify(barbeiroRepository, never()).deleteById(barbeiroId);
     }
+    @Test
+    public void testExistsByBarbeiroAndDataHora() {
+        Long barbeiroId = 1L;
+        LocalDateTime dataHora = LocalDateTime.of(2023, 12, 31, 15, 0);
+
+        boolean resultado = agendaRepository.existsByBarbeiro_BarbeiroIdAndDataHora(barbeiroId, dataHora);
+
+        assertFalse(resultado); // Verifica se não há agendamento para o horário
+    }
+
 
 }
