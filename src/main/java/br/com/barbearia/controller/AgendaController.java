@@ -24,7 +24,7 @@ public class AgendaController {
     @Autowired
     private ModelMapper modelMapper;
 
-    @PostMapping("/salvarAgendamento")
+    @PostMapping
     public ResponseEntity<AgendaDto> save(@Valid @RequestBody AgendaDto agendaDto) {
         Agenda agenda = modelMapper.map(agendaDto, Agenda.class);
         Agenda novaAgenda = agendaService.save(agenda);

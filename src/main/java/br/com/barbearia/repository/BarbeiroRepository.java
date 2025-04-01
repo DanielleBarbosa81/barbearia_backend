@@ -8,11 +8,11 @@ import java.util.Optional;
 
 public interface BarbeiroRepository extends JpaRepository<Barbeiro, Long> {
 
-    List<Barbeiro> findByNomeContainingIgnoreCase(String nome);
+    List<Barbeiro> findByBarbeiroNomeContainingIgnoreCase(String barbeiroNome);
 
-    List<Barbeiro> findByEspecialidadeContainingIgnoreCase(String especialidade);
+    List<Barbeiro> findByBarbeiroEspecialidadeContainingIgnoreCase(String barbeiroEspecialidade);
 
-    public Optional<Barbeiro> findByEspecialidade (String especialidade);
+    public Optional<Barbeiro> findByBarbeiroEspecialidade (String barbeiroEspecialidade);
 
 
 

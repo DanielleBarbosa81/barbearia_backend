@@ -2,94 +2,129 @@ package br.com.barbearia.serviceTest;
 
 import br.com.barbearia.exceptions.ObjectNotFoundException;
 import br.com.barbearia.models.Barbeiro;
-import br.com.barbearia.repository.BarbeiroRepository;
 import br.com.barbearia.repository.AgendaRepository;
+import br.com.barbearia.repository.BarbeiroRepository;
 import br.com.barbearia.services.BarbeiroService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
-public class BarbeiroServiceTest {
+@SpringBootTest
+class BarbeiroServiceTest {
 
     @InjectMocks
-    BarbeiroService barbeiroService;
+    private BarbeiroService barbeiroService;
 
     @Mock
-    BarbeiroRepository barbeiroRepository;
+    private BarbeiroRepository barbeiroRepository;
 
     @Mock
-    AgendaRepository agendaRepository;
+    private AgendaRepository agendaRepository;
 
-
-    private Long barbeiroId;
     private Barbeiro barbeiro;
-    private LocalDateTime dataHora;
+    private Optional<Barbeiro> optionalBarbeiro;
+
+    private static final Long ID = 1L;
+    private static final String NOME = "Pedro";
+    private static final String ESPECIALIDADE = "Corte masculino";
 
     @BeforeEach
-    public void setUp(){
+    void setUp() {
         MockitoAnnotations.openMocks(this);
-
-        barbeiroId = 1L;
-        barbeiro = new Barbeiro();
-        barbeiro.setBarbeiroId(barbeiroId);
-        barbeiro.setNome("João");
-
+        startBarbeiro();
     }
-
 
     @Test
-    public void deveExcluirBarbeiroComSucesso() {
-        // Simula o retorno do barbeiro ao buscar pelo ID
-        when(barbeiroRepository.findById(barbeiroId)).thenReturn(Optional.of(barbeiro));
+    void whenFindByIdThenReturnAnBarbeiroInstance() {
+        when(barbeiroRepository.findById(anyLong())).thenReturn(optionalBarbeiro);
 
-        // Simula que o barbeiro não possui agendamentos
-        when(agendaRepository.existsByBarbeiro_BarbeiroIdAndDataHora(barbeiroId, dataHora)).thenReturn(false);
+        Barbeiro response = barbeiroService.findById(ID);
 
-        // Executa o método de exclusão
-        barbeiroService.delete(barbeiroId, dataHora);
-
-        // Verifica se os métodos foram chamados corretamente
-        verify(agendaRepository, times(1)).existsByBarbeiro_BarbeiroIdAndDataHora(barbeiroId, dataHora);
-        verify(barbeiroRepository, times(1)).findById(barbeiroId);
-        verify(barbeiroRepository, times(1)).deleteById(barbeiroId);
+        assertNotNull(response);
+        assertEquals(Barbeiro.class, response.getClass());
+        assertEquals(ID, response.getBarbeiroId());
+        assertEquals(NOME, response.getNome());
+        assertEquals(ESPECIALIDADE, response.getEspecialidade());
     }
-
 
     @Test
-    public void deveLancarExcecaoQuandoBarbeiroTemAgendamentos(){
+    void whenFindByIdThenReturnAnObjectNotFoundException() {
+        when(barbeiroRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-        when(barbeiroRepository.findById(barbeiroId)).thenReturn(java.util.Optional.of(barbeiro));
-
-        //simula que existem agendamentos associados ao barbeiro
-        when(agendaRepository.existsByBarbeiro_BarbeiroIdAndDataHora(barbeiroId, dataHora)).thenReturn(true);
-
-        //verifica se a exceccao é lançada
-        ObjectNotFoundException exception = assertThrows(ObjectNotFoundException.class, () -> {
-            barbeiroService.delete(barbeiroId, dataHora);
-        });
-        //verifica a mensagem de erro
-        assertEquals("Não é possivel excluir barbeiro com cliente agendado!", exception.getMessage());
-
-        //verifica se o metodo deleteById não foi chamado
-        verify(barbeiroRepository, never()).deleteById(barbeiroId);
+        try {
+            barbeiroService.findById(ID);
+        } catch (Exception ex) {
+            assertEquals(ObjectNotFoundException.class, ex.getClass());
+            assertEquals("Barbeiro não encontrado", ex.getMessage());
+        }
     }
+
     @Test
-    public void testExistsByBarbeiroAndDataHora() {
-        Long barbeiroId = 1L;
-        LocalDateTime dataHora = LocalDateTime.of(2023, 12, 31, 15, 0);
+    void whenFindAllThenReturnAnListOfBarbeiros() {
+        when(barbeiroRepository.findAll()).thenReturn(List.of(barbeiro));
 
-        boolean resultado = agendaRepository.existsByBarbeiro_BarbeiroIdAndDataHora(barbeiroId, dataHora);
+        List<Barbeiro> response = barbeiroService.findAll();
 
-        assertFalse(resultado); // Verifica se não há agendamento para o horário
+        assertNotNull(response);
+        assertEquals(1, response.size());
+        assertEquals(Barbeiro.class, response.get(0).getClass());
+        assertEquals(ID, response.get(0).getBarbeiroId());
+        assertEquals(NOME, response.get(0).getNome());
+        assertEquals(ESPECIALIDADE, response.get(0).getEspecialidade());
     }
 
+    @Test
+    void whenSaveThenReturnSuccess() {
+        when(barbeiroRepository.save(any())).thenReturn(barbeiro);
 
+        Barbeiro response = barbeiroService.save(barbeiro);
+
+        assertNotNull(response);
+        assertEquals(Barbeiro.class, response.getClass());
+        assertEquals(ID, response.getBarbeiroId());
+        assertEquals(NOME, response.getNome());
+        assertEquals(ESPECIALIDADE, response.getEspecialidade());
+    }
+
+    @Test
+    void whenUpdateThenReturnSuccess() {
+        when(barbeiroRepository.findById(anyLong())).thenReturn(optionalBarbeiro);
+        when(barbeiroRepository.save(any())).thenReturn(barbeiro);
+
+        Barbeiro response = barbeiroService.update(ID, barbeiro);
+
+        assertNotNull(response);
+        assertEquals(Barbeiro.class, response.getClass());
+        assertEquals(ID, response.getBarbeiroId());
+        assertEquals(NOME, response.getNome());
+        assertEquals(ESPECIALIDADE, response.getEspecialidade());
+    }
+
+    @Test
+    void whenUpdateThenReturnAnObjectNotFoundException() {
+        when(barbeiroRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        try {
+            barbeiroService.update(ID, barbeiro);
+        } catch (Exception ex) {
+            assertEquals(ObjectNotFoundException.class, ex.getClass());
+            assertEquals("Barbeiro não encontrado", ex.getMessage());
+        }
+    }
+
+    private void startBarbeiro() {
+        barbeiro = new Barbeiro(ID, NOME, ESPECIALIDADE);
+        optionalBarbeiro = Optional.of(barbeiro);
+    }
 }

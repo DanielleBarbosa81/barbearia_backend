@@ -2,8 +2,13 @@ package br.com.barbearia.services;
 
 import br.com.barbearia.exceptions.ObjectNotFoundException;
 import br.com.barbearia.models.Agenda;
+import br.com.barbearia.models.Barbeiro;
+import br.com.barbearia.models.Cliente;
 import br.com.barbearia.repository.AgendaRepository;
+import br.com.barbearia.repository.BarbeiroRepository;
+import br.com.barbearia.repository.ClienteRepository;
 import org.jetbrains.annotations.NotNull;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
@@ -18,26 +23,42 @@ public class AgendaService {
     @Autowired
     public AgendaRepository agendaRepository;
 
+    @Autowired
+    private ClienteRepository clienteRepository;
+
+    @Autowired
+    private BarbeiroRepository barbeiroRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+
     // Verifica se já existe um agendamento para o barbeiro no mesmo horário
     public boolean existeAgendamentoComBarbeiroNoMesmoHorario(Long barbeiroId, LocalDateTime dataHora) {
         return agendaRepository.existsByBarbeiro_BarbeiroIdAndDataHora(barbeiroId, dataHora);
     }
 
 
+    public Agenda save(Agenda agendaDto) {
+        // Busca cliente e barbeiro no banco
+        Cliente cliente = clienteRepository.findById(agendaDto.getCliente().getClienteId())
+                .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
+        Barbeiro barbeiro = barbeiroRepository.findById(agendaDto.getBarbeiro().getBarbeiroId())
+                .orElseThrow(() -> new IllegalArgumentException("Barbeiro não encontrado"));
 
-    // Cria um novo agendamento após verificar conflitos de horário
-    public Agenda save(Agenda agenda) {
-        if (agenda.getBarbeiro() == null || agenda.getDataHora() == null || agenda.getCliente() == null) {
-            throw new IllegalArgumentException("Preencha todos os campos para realizar o  agendamento ");
+        // Verifica se já existe um agendamento para o barbeiro nesse horário
+        if (agendaRepository.existsByBarbeiro_BarbeiroIdAndDataHora(barbeiro.getBarbeiroId(), agendaDto.getDataHora())) {
+            throw new IllegalArgumentException("Já existe um agendamento para este barbeiro neste horário.");
         }
 
+        // Converte DTO para entidade usando ModelMapper
+        Agenda agenda = modelMapper.map(agendaDto, Agenda.class);
 
-        if (existeAgendamentoComBarbeiroNoMesmoHorario(agenda.getBarbeiro().getBarbeiroId(), agenda.getDataHora())) {
-           throw new IllegalArgumentException("Já existe um agendamento para este barbeiro neste horário.");
+        // Define manualmente Cliente e Barbeiro (pois ModelMapper não sabe buscar no banco)
+        agenda.setCliente(cliente);
+        agenda.setBarbeiro(barbeiro);
 
-        }
         return agendaRepository.save(agenda);
-
     }
 
     //busca todas as datas agendadas

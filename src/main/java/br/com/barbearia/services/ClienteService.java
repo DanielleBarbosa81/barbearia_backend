@@ -1,14 +1,12 @@
 package br.com.barbearia.services;
 
 import br.com.barbearia.exceptions.ObjectNotFoundException;
-import br.com.barbearia.models.Barbeiro;
 import br.com.barbearia.models.Cliente;
 import br.com.barbearia.repository.AgendaRepository;
 import br.com.barbearia.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -35,7 +33,7 @@ public class ClienteService {
     }
 
     public Cliente save(Cliente cliente) {
-        if (cliente.getNome() == null || cliente.getNome().isEmpty()) {
+        if (cliente.getClienteNome() == null || cliente.getClienteNome().isEmpty()) {
             throw new IllegalArgumentException("Nome do cliente não pode ser vazio");
         }
         return clienteRepository.save(cliente);
@@ -48,9 +46,9 @@ public class ClienteService {
                 .orElseThrow(() -> new ObjectNotFoundException("Cliente com ID " + clienteId + " não encontrado."));
 
         // Atualiza os dados do cliente existente com os novos dados recebidos
-        clienteExistente.setNome(novosDados.getNome());
-        clienteExistente.setEmail(novosDados.getEmail());
-        clienteExistente.setTelefone(novosDados.getTelefone());
+        clienteExistente.setClienteNome(novosDados.getClienteNome());
+        clienteExistente.setClienteEmail(novosDados.getClienteEmail());
+        clienteExistente.setClienteTelefone(novosDados.getClienteTelefone());
         // Inclua outros campos que você deseja atualizar...
 
         // Salva o cliente atualizado no banco de dados

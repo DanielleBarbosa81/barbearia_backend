@@ -6,44 +6,50 @@ public class ClienteDto {
     private Long clienteId;
 
     @NotNull(message = "Nome do cliente não pode ser nulo")
-    private String nome;
+    private String clienteNome;
 
-    private String telefone;
-    private String email;
+    private String clienteTelefone;
+    private String clienteEmail;
 
-    // Construtor Padrão
+
     public ClienteDto() {}
 
-    // Getters e Setters
+    public ClienteDto(Long clienteId, String clienteNome, String clienteTelefone, String clienteEmail) {
+        this.clienteId = clienteId;
+        this.clienteNome = clienteNome;
+        this.clienteTelefone = clienteTelefone;
+        this.clienteEmail = clienteEmail;
+    }
+
     public Long getClienteId() {
         return clienteId;
     }
 
-    public void setClienteId(Long id) {
-        this.clienteId = id;
+    public void setClienteId(Long clienteId) {
+        this.clienteId = clienteId;
     }
 
-    public String getNome() {
-        return nome;
+    public String getClienteNome() {
+        return clienteNome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setClienteNome(String clienteNome) {
+        this.clienteNome = clienteNome;
     }
 
-    public String getTelefone() {
-        return telefone;
+    public String getClienteTelefone() {
+        return clienteTelefone;
     }
 
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
+    public void setClienteTelefone(String clienteTelefone) {
+        this.clienteTelefone = clienteTelefone;
     }
 
-    public String getEmail() {
-        return email;
+    public String getClienteEmail() {
+        return clienteEmail;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setClienteEmail(String clienteEmail) {
+        this.clienteEmail = clienteEmail;
     }
 }

@@ -43,13 +43,13 @@ public class BarbeiroService {
        Optional<Barbeiro> barbeiroExistente = barbeiroRepository.findById(barbeiroId);
        if(barbeiroExistente.isPresent()){
            Barbeiro barbeiro = barbeiroExistente.get();
-           barbeiro.setNome(novosDados.getNome());
-           barbeiro.setEspecialidade(novosDados.getEspecialidade());
+           barbeiro.setBarbeiroNome(novosDados.getBarbeiroNome());
+           barbeiro.setBarbeiroEspecialidade(novosDados.getBarbeiroEspecialidade());
 
           return barbeiroRepository.save(barbeiro);
 
        }else{
-           throw new ObjectNotFoundException("Barbeiro nao encontrado");
+           throw new ObjectNotFoundException("Barbeiro não encontrado");
        }
     }
 

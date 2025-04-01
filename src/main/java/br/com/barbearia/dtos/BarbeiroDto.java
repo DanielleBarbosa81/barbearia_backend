@@ -2,14 +2,19 @@ package br.com.barbearia.dtos;
 
 public class BarbeiroDto {
 
-    private  Long barbeiroId;
-    private String nome;
-    private String especialidade;
+    private Long barbeiroId;
+    private String barbeiroNome;
+    private String barbeiroEspecialidade;
 
-    public BarbeiroDto(){
+    public BarbeiroDto() {
 
     }
 
+    public BarbeiroDto(Long barbeiroId, String barbeiroNome, String barbeiroEspecialidade) {
+        this.barbeiroId = barbeiroId;
+        this.barbeiroNome = barbeiroNome;
+        this.barbeiroEspecialidade = barbeiroEspecialidade;
+    }
 
     public Long getBarbeiroId() {
         return barbeiroId;
@@ -19,19 +24,19 @@ public class BarbeiroDto {
         this.barbeiroId = barbeiroId;
     }
 
-    public String getNome() {
-        return nome;
+    public String getBarbeiroNome() {
+        return barbeiroNome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setBarbeiroNome(String barbeiroNome) {
+        this.barbeiroNome = barbeiroNome;
     }
 
-    public String getEspecialidade() {
-        return especialidade;
+    public String getBarbeiroEspecialidade() {
+        return barbeiroEspecialidade;
     }
 
-    public void setEspecialidade(String especialidade) {
-        this.especialidade = especialidade;
+    public void setBarbeiroEspecialidade(String barbeiroEspecialidade) {
+        this.barbeiroEspecialidade = barbeiroEspecialidade;
     }
 }

@@ -41,7 +41,7 @@ public class BarbeiroController {
         return ResponseEntity.ok().body(barbeiroDtos);
     }
 
-    @PostMapping("/cadastrarBarbeiro")
+    @PostMapping
     public ResponseEntity<BarbeiroDto> save (@Valid @RequestBody BarbeiroDto barbeiroDto){
         Barbeiro barbeiro = modelMapper.map(barbeiroDto, Barbeiro.class);
         Barbeiro barb = barbeiroService.save(barbeiro);

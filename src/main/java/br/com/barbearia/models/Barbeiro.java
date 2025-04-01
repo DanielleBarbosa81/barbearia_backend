@@ -11,42 +11,42 @@ public class Barbeiro {
     private Long barbeiroId;
 
     @Column(nullable = false)
-    private String nome;
+    private String barbeiroNome;
 
     @Column(nullable = false)
-    private String especialidade;
+    private String barbeiroEspecialidade;
 
     public Barbeiro(){
 
     }
 
-    public Barbeiro(Long barbeiroId, String nome, String especialidade) {
+    public Barbeiro(Long barbeiroId, String barbeiroNome, String barbeiroEspecialidade) {
         this.barbeiroId = barbeiroId;
-        this.nome = nome;
-        this.especialidade = especialidade;
+        this.barbeiroNome = barbeiroNome;
+        this.barbeiroEspecialidade = barbeiroEspecialidade;
     }
 
     public Long getBarbeiroId() {
         return barbeiroId;
     }
 
-    public void setBarbeiroId(Long id) {
-        this.barbeiroId = id;
+    public void setBarbeiroId(Long barbeiroId) {
+        this.barbeiroId = barbeiroId;
     }
 
-    public String getNome() {
-        return nome;
+    public String getBarbeiroNome() {
+        return barbeiroNome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setBarbeiroNome(String barbeiroNome) {
+        this.barbeiroNome = barbeiroNome;
     }
 
-    public String getEspecialidade() {
-        return especialidade;
+    public String getBarbeiroEspecialidade() {
+        return barbeiroEspecialidade;
     }
 
-    public void setEspecialidade(String especialidade) {
-        this.especialidade = especialidade;
+    public void setBarbeiroEspecialidade(String barbeiroEspecialidade) {
+        this.barbeiroEspecialidade = barbeiroEspecialidade;
     }
 }

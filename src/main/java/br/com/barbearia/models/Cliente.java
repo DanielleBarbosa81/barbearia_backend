@@ -12,42 +12,51 @@ public class Cliente {
     private Long clienteId;
 
     @NotNull
-    @Column(name = "nome", nullable = false) // Garante que o nome será persistido no banco
-    private String nome;
+    @Column(name = "clienteNome", nullable = false) // Garante que o nome será persistido no banco
+    private String clienteNome;
+    private String clienteEmail;
+    private String clienteTelefone;
 
-    private String telefone;
-    private String email;
+    public Cliente() {
+    }
 
-    // Getters e Setters
+    public Cliente(Long clienteId, String clienteNome, String clienteEmail, String clienteTelefone) {
+        this.clienteId = clienteId;
+        this.clienteNome = clienteNome;
+        this.clienteEmail = clienteEmail;
+        this.clienteTelefone = clienteTelefone;
+    }
+
     public Long getClienteId() {
         return clienteId;
     }
 
-    public void setClienteId(Long id) {
-        this.clienteId = id;
+    public void setClienteId(Long clienteId) {
+        this.clienteId = clienteId;
     }
 
-    public String getNome() {
-        return nome;
+    public String getClienteNome() {
+        return clienteNome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setClienteNome(String clienteNome) {
+        this.clienteNome = clienteNome;
     }
 
-    public String getTelefone() {
-        return telefone;
+    public String getClienteEmail() {
+        return clienteEmail;
     }
 
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
+    public void setClienteEmail(String clienteEmail) {
+        this.clienteEmail = clienteEmail;
     }
 
-    public String getEmail() {
-        return email;
+    public String getClienteTelefone() {
+        return clienteTelefone;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setClienteTelefone(String clienteTelefone) {
+        this.clienteTelefone = clienteTelefone;
     }
+
 }

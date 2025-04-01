@@ -42,9 +42,7 @@ public class ClienteController {
 
     }
 
-
-
-    @PostMapping("/cadastrarCliente")
+    @PostMapping
         public ResponseEntity<ClienteDto> save (@Valid @RequestBody ClienteDto clienteDto){
         // Converte o DTO para a entidade
         Cliente cliente = modelMapper.map(clienteDto, Cliente.class);

@@ -2,24 +2,39 @@ package br.com.barbearia.dtos;
 
 import jakarta.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import java.time.LocalDateTime;
 
 public class AgendaDto {
 
+    @NotNull
+    private String clienteNome;
+    private Long clienteId;
 
-        @NotNull
-        private Long clienteId;
+    @NotNull
+    private String barbeiroNome;
+    private Long barbeiroId;
 
-        @NotNull
-        private Long barbeiroId;
+    @NotNull
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private LocalDateTime dataHora;
 
-        @NotNull
-        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-        private LocalDateTime dataHora;
+    public AgendaDto(Long clienteId, Long barbeiroId, LocalDateTime dataHora) {
+    }
 
-    public AgendaDto(){
+    public AgendaDto(String clienteNome, Long clienteId, String barbeiroNome, Long barbeiroId, LocalDateTime dataHora) {
+        this.clienteNome = clienteNome;
+        this.clienteId = clienteId;
+        this.barbeiroNome = barbeiroNome;
+        this.barbeiroId = barbeiroId;
+        this.dataHora = dataHora;
+    }
 
+    public String getClienteNome() {
+        return clienteNome;
+    }
+
+    public void setClienteNome(String clienteNome) {
+        this.clienteNome = clienteNome;
     }
 
     public Long getClienteId() {
@@ -28,6 +43,14 @@ public class AgendaDto {
 
     public void setClienteId(Long clienteId) {
         this.clienteId = clienteId;
+    }
+
+    public String getBarbeiroNome() {
+        return barbeiroNome;
+    }
+
+    public void setBarbeiroNome(String barbeiroNome) {
+        this.barbeiroNome = barbeiroNome;
     }
 
     public Long getBarbeiroId() {
@@ -46,3 +69,4 @@ public class AgendaDto {
         this.dataHora = dataHora;
     }
 }
+
