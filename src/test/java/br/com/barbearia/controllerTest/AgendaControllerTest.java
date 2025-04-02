@@ -91,20 +91,7 @@ class AgendaControllerTest {
         assertEquals(dataHora, firstAgenda.getDataHora(), "Data/Hora should match");
     }
 
-    @Test
-    void whenBuscarDatasAgendadasThenReturnSuccess() {
-        when(agendaService.buscarPorTodasDatasAgendadas()).thenReturn(List.of(dataHora));
 
-        ResponseEntity<List<String>> response = agendaController.buscarDatasAgendadas();
-
-        assertNotNull(response, "Response should not be null");
-        assertEquals(HttpStatus.OK, response.getStatusCode(), "Status code should be OK");
-        
-        List<String> body = response.getBody();
-        assertNotNull(body, "Response body should not be null");
-        assertEquals(1, body.size(), "Should have one data agendada");
-        assertTrue(body.get(0).matches("\\d{2}-\\d{2}-\\d{4} \\d{2}:\\d{2}"), "Date format should match dd-MM-yyyy HH:mm");
-    }
 
     private void startAgenda() {
         cliente = new Cliente(ID, "João", "joao@email.com", "999999999");

@@ -1,32 +1,41 @@
 package br.com.barbearia.dtos;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
 
 public class AgendaDto {
 
-    @NotNull
-    private String clienteNome;
+    @NotNull(message = "O clienteId é obrigatório.")
     private Long clienteId;
 
-    @NotNull
-    private String barbeiroNome;
+    @NotNull(message = "O barbeiroId é obrigatório.")
     private Long barbeiroId;
 
-    @NotNull
+    @NotNull(message = "A data e hora são obrigatórias.")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime dataHora;
 
-    public AgendaDto(Long clienteId, Long barbeiroId, LocalDateTime dataHora) {
+    private Long agendaId;
+
+    private String clienteNome;
+
+    private String barbeiroNome;
+
+    public AgendaDto(){
+
     }
 
-    public AgendaDto(String clienteNome, Long clienteId, String barbeiroNome, Long barbeiroId, LocalDateTime dataHora) {
-        this.clienteNome = clienteNome;
-        this.clienteId = clienteId;
-        this.barbeiroNome = barbeiroNome;
-        this.barbeiroId = barbeiroId;
-        this.dataHora = dataHora;
+
+
+    public Long getAgendaId() {
+        return agendaId;
+    }
+
+    public void setAgendaId(Long agendaId) {
+        this.agendaId = agendaId;
     }
 
     public String getClienteNome() {
@@ -69,4 +78,3 @@ public class AgendaDto {
         this.dataHora = dataHora;
     }
 }
-
