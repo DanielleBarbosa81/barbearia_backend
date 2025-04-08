@@ -68,8 +68,8 @@ public class BarbeiroController {
 
 
     @DeleteMapping("/{barbeiroId}")
-    public ResponseEntity<Void> delete (@PathVariable Long barbeiroId, @RequestBody LocalDateTime dataHora){
-        barbeiroService.delete(barbeiroId, dataHora);
+    public ResponseEntity<Void> delete (@PathVariable Long barbeiroId){
+        barbeiroService.delete(barbeiroId);
         return ResponseEntity.noContent().build();
     }
 

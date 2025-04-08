@@ -37,53 +37,45 @@ public class AgendaService {
         }
 
 
-        public Agenda save(Agenda agenda) {
-            // Busca cliente e barbeiro no banco
-            Cliente cliente = clienteRepository.findByClienteNomeContainingIgnoreCase(agenda.getCliente().getClienteNome())
-                    .stream()
-                    .findFirst()
-                    .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado com o nome: " + agenda.getCliente().getClienteNome()));
+    public Agenda save(Agenda agenda) {
+        // Busca cliente e barbeiro no banco pelo ID
+        Cliente cliente = clienteRepository.findById(agenda.getCliente().getClienteId())
+                .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado com o ID: " + agenda.getCliente().getClienteId()));
 
-            Barbeiro barbeiro = barbeiroRepository.findById(agenda.getBarbeiro().getBarbeiroId())
-                    .orElseThrow(() -> new IllegalArgumentException("Barbeiro não encontrado com o ID: " + agenda.getBarbeiro().getBarbeiroId()));
+        Barbeiro barbeiro = barbeiroRepository.findById(agenda.getBarbeiro().getBarbeiroId())
+                .orElseThrow(() -> new IllegalArgumentException("Barbeiro não encontrado com o ID: " + agenda.getBarbeiro().getBarbeiroId()));
 
-            // Verifica se há conflito de horário para o barbeiro
-            if (agendaRepository.existsByBarbeiro_BarbeiroIdAndDataHora(barbeiro.getBarbeiroId(), agenda.getDataHora())) {
-                throw new IllegalArgumentException("Já existe um agendamento para este barbeiro neste horário.");
-            }
-
-            // Define manualmente o cliente e barbeiro
-            agenda.setCliente(cliente);
-            agenda.setBarbeiro(barbeiro);
-
-            return agendaRepository.save(agenda);
+        // Verifica se já há um agendamento nesse horário para o mesmo barbeiro
+        if (agendaRepository.existsByBarbeiro_BarbeiroIdAndDataHora(barbeiro.getBarbeiroId(), agenda.getDataHora())) {
+            throw new IllegalArgumentException("Já existe um agendamento para este barbeiro neste horário.");
         }
 
+        agenda.setCliente(cliente);
+        agenda.setBarbeiro(barbeiro);
 
-        public Agenda update(Long agendaId, Agenda novosDados) {
-            // Verifica se a agenda existe
-            Agenda agendaExistente = agendaRepository.findById(agendaId)
-                    .orElseThrow(() -> new IllegalArgumentException("Agenda não encontrada com o ID: " + agendaId));
+        return agendaRepository.save(agenda);
+    }
 
-            // Atualiza os campos relevantes
-            agendaExistente.setDataHora(novosDados.getDataHora());
+    public Agenda update(Long agendaId, Agenda novosDados) {
+        // Verifica se a agenda existe
+        Agenda agendaExistente = agendaRepository.findById(agendaId)
+                .orElseThrow(() -> new IllegalArgumentException("Agenda não encontrada com o ID: " + agendaId));
 
-            // Busca o cliente e o barbeiro para atualizar
-            Cliente cliente = clienteRepository.findByClienteNomeContainingIgnoreCase(novosDados.getCliente().getClienteNome())
-                    .stream()
-                    .findFirst()
-                    .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado com o nome: " + novosDados.getCliente().getClienteNome()));
+        // Atualiza data/hora
+        agendaExistente.setDataHora(novosDados.getDataHora());
 
-            Barbeiro barbeiro = barbeiroRepository.findById(novosDados.getBarbeiro().getBarbeiroId())
-                    .orElseThrow(() -> new IllegalArgumentException("Barbeiro não encontrado com o ID: " + novosDados.getBarbeiro().getBarbeiroId()));
+        // Busca cliente e barbeiro pelos IDs recebidos
+        Cliente cliente = clienteRepository.findById(novosDados.getCliente().getClienteId())
+                .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado com o ID: " + novosDados.getCliente().getClienteId()));
 
-            agendaExistente.setCliente(cliente);
-            agendaExistente.setBarbeiro(barbeiro);
+        Barbeiro barbeiro = barbeiroRepository.findById(novosDados.getBarbeiro().getBarbeiroId())
+                .orElseThrow(() -> new IllegalArgumentException("Barbeiro não encontrado com o ID: " + novosDados.getBarbeiro().getBarbeiroId()));
 
-            return agendaRepository.save(agendaExistente);
-        }
+        agendaExistente.setCliente(cliente);
+        agendaExistente.setBarbeiro(barbeiro);
 
-
+        return agendaRepository.save(agendaExistente);
+    }
         public void delete(Long agendaId) {
             if (!agendaRepository.existsById(agendaId)) {
                 throw new IllegalArgumentException("Agenda não encontrada com o ID: " + agendaId);

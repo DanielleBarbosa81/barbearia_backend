@@ -46,7 +46,7 @@ class AgendaServiceTest {
 
     @Test
     void whenSaveThenReturnSuccess() {
-        when(agendaRepository.existsByBarbeiro_BarbeiroIdAndDataHora(anyLong(), any())).thenReturn(false);
+        when(agendaRepository.existsByBarbeiro_BarbeiroIdAndDataHora(anyLong())).thenReturn(false);
         when(agendaRepository.save(any())).thenReturn(agenda);
 
         Agenda response = agendaService.save(agenda);
@@ -61,7 +61,7 @@ class AgendaServiceTest {
 
     @Test
     void whenSaveWithExistingAppointmentThenThrowException() {
-        when(agendaRepository.existsByBarbeiro_BarbeiroIdAndDataHora(anyLong(), any())).thenReturn(true);
+        when(agendaRepository.existsByBarbeiro_BarbeiroIdAndDataHora(anyLong())).thenReturn(true);
 
         try {
             agendaService.save(agenda);
